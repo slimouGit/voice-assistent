@@ -64,7 +64,8 @@ def play_audio(audio_data):
 def realtime_conversation():
     """Stellt eine WebSocket-Verbindung zur Realtime API her."""
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": "Bearer " + API_KEY,
+        "OpenAI-Beta": "realtime=v1"
     }
     while True:
         try:
