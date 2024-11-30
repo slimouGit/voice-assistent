@@ -4,8 +4,6 @@ import numpy as np
 import json
 from websocket import create_connection
 
-from config import REALTIME_API_URL_
-
 SAMPLERATE = 16000  # Erforderlich für Realtime API
 CHUNK_SIZE = 1024  # Größe der Audio-Chunks
 REALTIME_API_URL = "wss://realtime.openai.com/v1"
@@ -15,7 +13,7 @@ API_KEY = "dein_api_key"
 def record_and_send_audio(ws):
     """Nimmt Audio auf und sendet es in Echtzeit an die Realtime API."""
     print("Starte Aufnahme... Sprich jetzt!")
-    time.sleep(200)  # Füge eine Verzögerung ein, damit das Mikrofon initialisiert wird
+    time.sleep(2)  # Füge eine Verzögerung ein, damit das Mikrofon initialisiert wird
 
     try:
         # Starte die Aufnahme
@@ -69,7 +67,7 @@ def realtime_conversation():
     while True:
         try:
             print("Verbinde mit der Realtime API...")
-            ws = create_connection(REALTIME_API_URL_, header=headers, timeout=300)
+            ws = create_connection(REALTIME_API_URL, header=headers, timeout=300)
 
             # Starte parallele Threads für Aufnahme und Antworten
             from threading import Thread
