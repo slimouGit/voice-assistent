@@ -4,10 +4,12 @@ import numpy as np
 import json
 from websocket import create_connection
 
+from config import API_KEY
+
 SAMPLERATE = 16000  # Erforderlich für Realtime API
 CHUNK_SIZE = 1024  # Größe der Audio-Chunks
-REALTIME_API_URL = "wss://realtime.openai.com/v1"
-API_KEY = "dein_api_key"
+REALTIME_API_URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-10-01";
+
 
 
 def record_and_send_audio(ws):

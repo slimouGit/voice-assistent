@@ -1,12 +1,8 @@
-import requests
+import websocket
 
-from config import API_KEY
-
-url = "wss://api.openai.com/v1/realtime"
-
-headers = {
-    "Authorization": f"Bearer {API_KEY}"
-}
-
-response = requests.get(url, headers=headers)
-print(response.json())
+try:
+    ws = websocket.create_connection("wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-10-01")
+    print("Connection succeeded!")
+    ws.close()
+except Exception as e:
+    print(f"Connection failed: {e}")
