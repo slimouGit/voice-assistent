@@ -76,6 +76,12 @@ def synthesize_speech(prompt):
 def save_text_to_speech(text, filename="response.wav"):
     """Saves the text as a spoken response in a WAV file."""
     engine = pyttsx3.init()
+    """initializes available voices"""
+    voices = engine.getProperty('voices')
+    for voice in voices:
+        if "Zira" in voice.name:
+            engine.setProperty('voice', voice.id)
+            break
     engine.save_to_file(text, filename)
     engine.runAndWait()
     return filename
