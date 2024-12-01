@@ -32,9 +32,11 @@ def record_and_send_audio(ws):
                     print("Skipping empty audio chunk.")  # Skip empty data
                     continue
 
-                # Send only if valid data is present
-                ws.send(chunk.tobytes(), opcode=0x2)
-                print("Audio chunk sent.")  # Debugging
+                try:
+                    ws.send(chunk.tobytes(), opcode=0x2)
+                    print("Audio chunk sent.")  # Debugging
+                except Exception as e:
+                    print(f"Error sending audio chunk: {e}")
                 time.sleep(0.1)
     except Exception as e:
         print(f"Error during recording: {e}")
