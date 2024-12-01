@@ -4,6 +4,12 @@ import speech_recognition
 
 from config import API_KEY, API_URL
 
+"""The voice_assistant_v1.py script is a simple voice assistant application that uses speech recognition and text-to-speech capabilities to interact with the user. It captures audio input, processes it using the OpenAI API, and responds with synthesized speech.
+Features:
+Speech Recognition: Captures audio input from the microphone and converts it to text using Google Speech Recognition.
+Text-to-Speech: Converts text responses from the OpenAI API to speech and plays it back to the user.
+OpenAI Integration: Sends user input to the OpenAI API and retrieves a response for a casual conversation."""
+
 # Initialize the text-to-speech engine
 engine = pyttsx3.init()
 
@@ -21,7 +27,7 @@ def get_audio():
             # Listen for audio input
             audio = recognizer.listen(source)
             # Recognize speech using Google Speech Recognition
-            text = recognizer.recognize_google(audio, language="de-DE")
+            text = recognizer.recognize_google(audio, language="en-EN")
             print(f"You said: {text}")
             return text
         except speech_recognition.UnknownValueError:
@@ -36,7 +42,10 @@ def get_openai_response(prompt):
     }
     payload = {
         "model": "gpt-3.5-turbo",
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": [
+            {"role": "system", "content": "You are a friendly assistant who engages in casual conversation."},
+            {"role": "user", "content": prompt}
+        ],
     }
     # Send a POST request to the OpenAI API
     response = requests.post(API_URL, headers=headers, json=payload)

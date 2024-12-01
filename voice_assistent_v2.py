@@ -6,6 +6,12 @@ import pyttsx3
 
 from config import API_KEY, REALTIME_API_URL
 
+"""The voice_assistent_v2.py script is a voice assistant application that records audio input, transcribes it using the OpenAI API, and responds with synthesized speech. It uses the sounddevice library for audio recording and playback, and pyttsx3 for text-to-speech conversion.
+Features:
+Audio Recording: Captures audio input from the microphone.
+Audio Transcription: Sends recorded audio to the OpenAI API for transcription.
+Text-to-Speech: Converts text responses from the OpenAI API to speech and plays it back to the user.
+OpenAI Integration: Uses the OpenAI API for both transcription and generating responses."""
 
 SAMPLERATE = 16000  # Required for the Realtime API
 DURATION = 5        # Recording time in seconds
@@ -52,7 +58,10 @@ def synthesize_speech(prompt):
     }
     data = {
         "model": "gpt-4",
-        "messages": [{"role": "user", "content": prompt}]
+        "messages": [
+            {"role": "system", "content": "You are a friendly assistant who engages in casual conversation."},
+            {"role": "user", "content": prompt}
+        ]
     }
     print("Generating response...")
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=data)
