@@ -16,6 +16,9 @@ OpenAI Integration: Uses the OpenAI API for both transcription and generating re
 SAMPLERATE = 16000  # Required for the Realtime API
 DURATION = 5        # Recording time in seconds
 
+# Initialize conversation history
+conversation_history = []
+
 def record_audio():
     """Records audio via the microphone."""
     print("Recording... Speak now!")
@@ -56,18 +59,22 @@ def synthesize_speech(prompt):
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
     }
+    # Add the new user prompt to the conversation history
+    conversation_history.append({"role": "user", "content": prompt})
+
     data = {
         "model": "gpt-4",
         "messages": [
-            {"role": "system", "content": "You are a friendly assistant who engages in casual conversation."},
-            {"role": "user", "content": prompt}
-        ]
+            {"role": "system", "content": "You are a friendly assistant who engages in casual conversation."}
+        ] + conversation_history  # Include the conversation history
     }
     print("Generating response...")
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=data)
     if response.status_code == 200:
         response_data = response.json()
         text_response = response_data["choices"][0]["message"]["content"]
+        # Add the model's response to the conversation history
+        conversation_history.append({"role": "assistant", "content": text_response})
         return text_response
     else:
         print(f"Error: {response.status_code}, {response.text}")
